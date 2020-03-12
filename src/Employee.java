@@ -24,8 +24,8 @@ public class Employee {
         this.empID = empID;
     }
 
-    public String getName() {
-        return name;
+    public static String getName() {
+        return getName();
     }
 
     public void setName(String name) {

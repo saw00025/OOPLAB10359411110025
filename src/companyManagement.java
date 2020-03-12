@@ -1,39 +1,83 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class companyManagement {
 
+    public class companyManagement {
+        public static void main(String[] args) {
+            //create interface instant
+            EmployeeDAOlmpl  dao =EmployeeDAOlmpl.getInstance();
 
-    public  static  void main (String[]args){
-        //
-       EmployeeDAOlmpl dao=EmployeeDAOlmpl.getInstance();
-        //display all
+            //Get all Employee
+            displayAllEmployee (dao);
+            //add new Employee
+            //addNewEmployee(dao);
+            //find Employee by ID
+            //findEmployeeByID(dao);
+            //update Employee by ID
+            //updateEmployeeByID(dao);
+            //delete Employee by ID;
+            deleteEmployeeByID(dao);
 
+        }//main
+        private static void deleteEmployeeByID(EmployeeDAO dao) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Delete employee with ID: ");
+            int id = Integer.parseInt(sc.nextLine().trim());
+            dao.DeleteEmp(id);
 
-
-        displayAllEmployee(dao);
-        addNewEmployee(dao);
-
-    }
-    private static void addNewEmployee(EmployeeDAOlmpl dao){
-        Scanner sc =new Scanner( System.in);
-        System.out.print("Enter employee id : ");
-        int id = Integer.parseInt(sc.nextLine().trim());
-        System.out.print("Enter employee name:");
-        String name = sc.nextLine();
-        System.out.print("Enter employee position:");
-        String position=sc.nextLine();
-        System.out.print("Enter employee salary:");
-        double salary= Double.parseDouble(sc.nextLine().trim());
-        dao.addEmp(new Employee(id,name,position,salary) );
-    }
-
-    private static void displayAllEmployee(EmployeeDAO dao) {
-        List<Employee>emp=dao.getA11Emp();
-        for (Employee e:emp){
-            System.out.println(e.toString());
         }
+        private static void updateEmployeeByID(EmployeeDAO dao){
+            Employee emp = findEmployeeByID2(dao);
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Update new salary for employee ID "
+                    +emp.getEmpID()+":");
+            double ns = Double.parseDouble(sc.nextLine().trim());
+            emp.setSalary(ns);
+            dao.UpdeteEmp(emp);
+            System.out.println("Update employee with ID: "+emp.getEmpID());
+        }
+        private static  Employee findEmployeeByID2(EmployeeDAO dao){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter an employee ID: ");
+            int id = Integer.parseInt((sc.nextLine().trim()));
+            Employee emp = dao.findEmp(id);
+            System.out.println(emp.toString());
+
+            return emp;
+        }
+
+        private static void findEmployeeByID(EmployeeDAO dao) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter an employee ID: ");
+            int id = Integer.parseInt((sc.nextLine().trim()));
+            Employee emp = dao.findEmp(id);
+            System.out.println(emp.toString());
+        }
+
+
+        private static void addNewEmployee(EmployeeDAO dao) {
+            Scanner sc = new Scanner(System.in);
+            //input data
+            System.out.println("Enter employee id: ");
+            int id = Integer.parseInt(sc.nextLine().trim());
+            System.out.println("Enter employee name: ");
+            String name = sc.nextLine().trim();
+            System.out.println("Enter employee position: ");
+            String position = sc.nextLine().trim();
+            System.out.println("Enter employee salary: ");
+            double salary = Double.parseDouble(sc.nextLine().trim());
+            //insert data to database
+            Employee newEmp = new Employee(id,name,position,salary);
+            dao.addEmp(newEmp);
+        }
+
+        private static void displayAllEmployee(EmployeeDAO dao) {
+            List<Employee> myEmp = dao.getA11Emp();
+            for (Employee emp:myEmp){
+                System.out.println(emp.toString());
+            }
+        }
+
+
+
     }
-
-}
-
